@@ -75,8 +75,8 @@ func (_m *MerchantRepository) GetByID(id int) (*model.Merchants, error) {
 	return r0, r1
 }
 
-// Store provides a mock function with given fields: a
-func (_m *MerchantRepository) Store(a *model.Merchants) (int, error) {
+// Create provides a mock function with given fields: a
+func (_m *MerchantRepository) Create(a *model.Merchants) (int, error) {
 	ret := _m.Called(a)
 
 	var r0 int

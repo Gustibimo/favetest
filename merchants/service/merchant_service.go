@@ -1,6 +1,8 @@
 package service
 
 import (
+	"bytes"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -55,7 +57,15 @@ func isRequestValid(m *model.Merchants) (bool, error) {
 	return true, nil
 }
 
-func (a *HttpMerchantHandler) Store(c echo.Context) error {
+func (a *HttpMerchantHandler) Create(c echo.Context) error {
+
+	var bodyBytes []byte
+
+	if c.Request().Body != nil {
+		bodyBytes, _ = ioutil.ReadAll(c.Request().Body)
+	}
+	c.Request().Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
+
 	var merchant model.Merchants
 	err := c.Bind(&merchant)
 	if err != nil {
@@ -66,7 +76,7 @@ func (a *HttpMerchantHandler) Store(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	ar, err := a.MUsecase.Store(&merchant)
+	ar, err := a.MUsecase.Create(&merchant)
 
 	if err != nil {
 		return c.JSON(getStatusCode(err), err.Error())
@@ -104,13 +114,13 @@ func getStatusCode(err error) int {
 	}
 }
 
-func NewArticleHttpHandler(e *echo.Echo, us merchantUcase.MerchantUcase) {
+func NewMerchantHttpHandler(e *echo.Echo, us merchantUcase.MerchantUcase) {
 	handler := &HttpMerchantHandler{
 		MUsecase: us,
 	}
 
 	e.GET("/merchant", handler.FetchMerchant)
-	e.POST("merchant", handler.Store)
+	e.POST("merchant", handler.Create)
 	e.GET("/merchant/:id", handler.GetByID)
 	e.DELETE("/merchant/:id", handler.Delete)
 

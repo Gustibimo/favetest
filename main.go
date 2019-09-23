@@ -46,9 +46,9 @@ func main() {
 	middL := middleware.InitMiddleware()
 	e.Use(middL.CORS)
 	mr := merchantRepo.NewPostgresMerchantRepository(dbConn)
-	au := merchantUcase.NewMerchantUsecase(mr)
+	mu := merchantUcase.NewMerchantUsecase(mr)
 
-	httpDeliver.NewArticleHttpHandler(e, au)
+	httpDeliver.NewMerchantHttpHandler(e, mu)
 
 	e.Start(config.GetString("server.address"))
 }

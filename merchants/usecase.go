@@ -9,6 +9,6 @@ type MerchantImpl interface {
 	GetByID(id int64) (*model.Merchants, error)
 	// GetByName(name string) (*model.Merchants, error)
 	Update(merchant *model.Merchants) error
-	Store(s *model.Merchants) error
+	Create(s *model.Merchants) error
 	Delete(id int64) error
 }

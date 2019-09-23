@@ -9,6 +9,6 @@ type MerchantRepository interface {
 	GetByID(id int64) (*model.Merchants, error)
 	// GetByName(name string) (*model.Merchants, error)
 	Update(merchant *model.Merchants) (*model.Merchants, error)
-	Store(s *model.Merchants) (int64, error)
+	Create(s *model.Merchants) (int64, error)
 	Delete(id int64) error
 }

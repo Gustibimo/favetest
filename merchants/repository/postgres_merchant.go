@@ -85,15 +85,15 @@ func (m *postgresMerchantRepository) GetByID(id int64) (res *model.Merchants, er
 	return a, nil
 }
 
-func (m *postgresMerchantRepository) Store(a *model.Merchants) (int64, error) {
+func (m *postgresMerchantRepository) Create(a *model.Merchants) (int64, error) {
 
-	query := `INSERT  merchants SET name=? , address=? , city=?, category=? , rating=?`
+	query := `INSERT  merchants SET name=? , address=? , rating=?, fave_paycnt=? , city=?, category=?, logo=?`
 	stmt, err := m.Conn.Prepare(query)
 	if err != nil {
 
 		return 0, err
 	}
-	res, err := stmt.Exec(a.Name, a.Address, a.ID, a.City, a.Category)
+	res, err := stmt.Exec(a.Name, a.Address, a.Rating, a.FavePayCnt, a.City, a.Category, a.Logo)
 	if err != nil {
 		return 0, err
 	}

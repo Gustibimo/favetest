@@ -10,13 +10,17 @@ import (
 
 // Cities struct is data structure of result
 type Cities struct {
-	Name    string `json:"name"`
-	Country string `json:"country"`
-	Slug    string `json:"slug"`
+	Country  string  `json:"country"`
+	Currency string  `json:"currency"`
+	ID       int64   `json:"id"`
+	Lat      float64 `json:"lat"`
+	Lng      float32 `json:"lng"`
+	Name     string  `json:"name"`
+	Slug     string  `json:"slug"`
 }
 
 // GetCity is func to extract city
-func GetCity(urlCity string) []string {
+func GetCity(urlCity string) ([]byte, []string) {
 
 	spaceClient := http.Client{
 		Timeout: time.Second * 2, // Maximum of 2 secs
@@ -46,5 +50,5 @@ func GetCity(urlCity string) []string {
 	for _, city := range cities {
 		cityList = append(cityList, city.Slug)
 	}
-	return cityList
+	return body, cityList
 }

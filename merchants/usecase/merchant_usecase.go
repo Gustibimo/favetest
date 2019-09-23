@@ -17,7 +17,7 @@ type MerchantUcase interface {
 	GetByID(id int64) (*model.Merchants, error)
 	// GetByName(name string) (*model.Merchants, error)
 	Update(merchant *model.Merchants) (*model.Merchants, error)
-	Store(s *model.Merchants) (*model.Merchants, error)
+	Create(s *model.Merchants) (*model.Merchants, error)
 	Delete(id int64) error
 }
 
@@ -70,14 +70,14 @@ func (m *merchantUcase) Update(mr *model.Merchants) (*model.Merchants, error) {
 	return m.merchantRepos.Update(mr)
 }
 
-func (m *merchantUcase) Store(s *model.Merchants) (*model.Merchants, error) {
+func (m *merchantUcase) Create(s *model.Merchants) (*model.Merchants, error) {
 
 	existedMerchant, _ := m.GetByID(s.ID)
 	if existedMerchant != nil {
 		return nil, model.ErrConflict
 	}
 
-	id, err := m.merchantRepos.Store(s)
+	id, err := m.merchantRepos.Create(s)
 	if err != nil {
 		return nil, err
 	}
